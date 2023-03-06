@@ -12,7 +12,20 @@ services:
   web: 
     build: .
     command: python3 manage.py runserver 0.0.0.0:9000
+    command: python3 manage.py runserver 0.0.0.0:9001
+    command: python3 manage.py runserver 0.0.0.0:9002
+    command: python3 manage.py runserver 0.0.0.0:9003
+    command: python3 manage.py runserver 0.0.0.0:9004
+    command: python3 manage.py runserver 0.0.0.0:9005
+    command: python3 manage.py runserver 0.0.0.0:9006
+    
     ports:
       - "9000:9000"
+      - "9001:9001"
+      - "9002:9002"
+      - "9003:9003"
+      - "9004:9004"
+      - "9005:9005"
+      - "9006:9006"
     depends_on:
       - db 
