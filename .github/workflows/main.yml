@@ -37,6 +37,6 @@ jobs:
           
       - name: Collectstatic
         run: |
-          docker-compose run web python3 manage.py collectstatic 
+          docker-compose run web python3 manage.py collectstatic --noinput
           
           
