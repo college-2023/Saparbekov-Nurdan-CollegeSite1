@@ -11,8 +11,8 @@ services:
       - POSTGRES_PASSWORD=postgres10
   web: 
     build: .
-    command: python3 manage.py runserver 0.0.0.0:8008
+    command: python3 manage.py runserver 0.0.0.0:9000
     ports:
-      - "8008:8008"
+      - "9000:9000"
     depends_on:
       - db 
