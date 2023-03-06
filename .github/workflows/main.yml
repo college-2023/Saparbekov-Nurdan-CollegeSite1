@@ -1,0 +1,42 @@
+name: build-project-time
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+ 
+      - uses: actions/checkout@v2
+    
+#       - name: Stop backend_web_1 container
+#         run: | 
+#             docker stop backend_web_1
+          
+#       - name: Delete backend_web_1 container
+#         run: |
+#           docker rm backend_web_1
+          
+      - name: Run Docker-Compose
+        run: |
+          docker-compose up --build -d
+          
+      - name: Makemigrations
+        run: |
+          docker-compose run web python3 manage.py makemigrations
+          
+      - name: Migrate
+        run: |
+          docker-compose run web python3 manage.py migrate
+          
+      - name: Collectstatic
+        run: |
+          docker-compose run web python3 manage.py collectstatic 
+          
+          
