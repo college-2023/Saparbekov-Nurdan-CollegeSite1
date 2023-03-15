@@ -19,7 +19,7 @@ class Images(models.Model):
         verbose_name = 'Изображение'
         verbose_name_plural = 'Изображения'
 
-    image = models.ImageField('Изображение инструмента', upload_to='media/instruments/')
+    image = models.ImageField('Изображение инструмента', upload_to='media/instruments/', null=True, blank=True)
     item = models.ForeignKey('Item', on_delete=models.DO_NOTHING, verbose_name='Инструмент', related_name='item_images')
 
     def __str__(self):
@@ -53,7 +53,7 @@ class Material(models.Model):
 class Type(models.Model):
     class Meta:
         verbose_name = 'Тип'
-        verbose_name_plural = 'Типы инструментов'
+        verbose_name_plural = 'Типы'
     name = models.CharField('Название', max_length=255)
     slug = models.SlugField(unique=True)
 
@@ -68,19 +68,22 @@ class Item(models.Model):
     )
 
     class Meta:
-        verbose_name = 'Инструмент'
-        verbose_name_plural = 'Инструменты'
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товары'
 
     title = models.CharField('Название инструмента', max_length=255)
     slug = models.SlugField('Slug', unique=True, help_text='Данное поле заполняется автоматически')
     description = models.TextField('Описание/характеристика')
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, verbose_name='Компания')
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, verbose_name='Категория')
-    type = models.ForeignKey(Type, on_delete=models.DO_NOTHING, verbose_name='Тип')
-    colors = models.CharField('Цвет', choices=COLOR_CHOICES, max_length=255)
-    material = models.ForeignKey(Material, on_delete=models.DO_NOTHING, verbose_name='Материал')
-    size = models.FloatField("Размер")
+    type = models.ForeignKey(Type, on_delete=models.DO_NOTHING, verbose_name='Тип', blank=True, null=True)
+    colors = models.CharField('Цвет', choices=COLOR_CHOICES, max_length=255, blank=True, null=True)
+    material = models.ForeignKey(Material, on_delete=models.DO_NOTHING, verbose_name='Материал', blank=True, null=True)
+    size = models.FloatField("Размер", blank=True, null=True)
     price = models.FloatField('Цена')
+    characteristic = models.CharField('Характеристика', blank=True, null=True, help_text='Choco-loco', max_length=255)
+    compound = models.CharField('Состав', blank=True, null=True, help_text='Bluemarine/Vita/Ave-Beauty', max_length=255)
+    application_mode = models.CharField('Способ применения', blank=True, null=True, help_text='Vita/Ave-Beauty', max_length=255)
 
     def __str__(self):
         return self.title

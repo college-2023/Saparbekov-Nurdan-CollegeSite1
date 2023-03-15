@@ -12,7 +12,7 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from .serializers import UserCreateSerializer, LoginSerializer
+# from .serializers import UserCreateSerializer, LoginSerializer
 from .tokens import account_activation_token
 
 

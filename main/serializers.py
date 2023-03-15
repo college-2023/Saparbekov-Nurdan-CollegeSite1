@@ -49,6 +49,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = 'id title slug description colors size price company type category material'.split()
+        fields = 'id title slug description colors size price company type category' \
+                 ' material characteristic compound application_mode'.split()
 
 
