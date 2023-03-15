@@ -41,25 +41,24 @@ class EmailSerializer(serializers.Serializer):
     class Meta:
         fields = ("email",)
 
-
-class LoginSerializer(serializers.Serializer):
-    email = serializers.EmailField(read_only=True)
-    name = serializers.CharField(read_only=True)
-    username = serializers.CharField()
-    tokens = serializers.CharField(read_only=True)
-    password = serializers.CharField(write_only=True, style={"input_type": "password"})
-
-    def validate(self, attrs):
-        username = attrs.get("username", "")
-        password = attrs.get("password", "")
-        user = auth.authenticate(username=username, password=password)
-        if not user:
-            raise AuthenticationFailed("Invalid credentials, try again")
-        if not user.is_active:
-            raise AuthenticationFailed("Email is not verified")
-        return {
-            "email": user.email,
-            "username": user.username,
-            "tokens": user.tokens(),
-        }
+#
+# class LoginSerializer(serializers.Serializer):
+#     email = serializers.EmailField(read_only=True)
+#     name = serializers.CharField(read_only=True)
+#     username = serializers.CharField()
+#     tokens = serializers.CharField(read_only=True)
+#     password = serializers.CharField(write_only=True, style={"input_type": "password"})
+#
+#     def validate(self, attrs):
+#         username = attrs.get("username", "")
+#         password = attrs.get("password", "")
+#         user = auth.authenticate(username=username, password=password)
+#         if not user:
+#             raise AuthenticationFailed("Invalid credentials, try again")
+#         if not user.is_active:
+#             raise AuthenticationFailed("Email is not verified")
+#         return {
+#             "email": user.email,
+#             "username": user.username,
+#         }
 
