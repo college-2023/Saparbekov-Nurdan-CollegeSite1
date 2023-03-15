@@ -7,11 +7,12 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from rest_framework import generics, status
 from rest_framework.generics import CreateAPIView
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from .serializers import UserCreateSerializer
+from .serializers import UserCreateSerializer, LoginSerializer
 from .tokens import account_activation_token
 
 
@@ -78,3 +79,10 @@ class RegisterUserView(CreateAPIView):
         return Response(data)
 
 
+class LoginView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
