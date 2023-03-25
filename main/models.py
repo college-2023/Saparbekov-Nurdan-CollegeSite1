@@ -61,44 +61,29 @@ class Type(models.Model):
         return self.name
 
 
-class Item(models.Model):
-    COLOR_CHOICES = (
-        ('Белый', 'Белый'),
-        ('Бордовый', 'Бордовый'),
-        ('Голубой', 'Голубой'),
-        ('Желтый', 'Желтый'),
-        ('Зеленый', 'Зеленый'),
-        ('Золотистый', 'Золотистый'),
-        ('Коричневый', 'Коричневый'),
-        ('Красный', 'Красный'),
-        ('Малиновый', 'Малиновый'),
-        ('Металик', 'Металик'),
-        ('Оранжевый', 'Оранжевый'),
-        ('Розовый', 'Розовый'),
-        ('Серебряный', 'Серебряный'),
-        ('Санберст', 'Санберст'),
-        ('Серый-черный', 'Серый-черный'),
-        ('Серый', 'Серый'),
-        ('Серебряный золотистый', 'Серебряный золотистый'),
-        ('Синий', 'Синий'),
-        ('Салатовый', 'Салатовый'),
-        ('Сиреневый', 'Сиреневый'),
-        ('Фиолетовый', 'Фиолетовый'),
-        ('Черный', 'Черный'),
-        ('FFFDC', 'Цвет шелковистых нитевидных пестиков початков неспелой кукурузы'),
-    )
+class Color(models.Model):
+    class Meta:
+        verbose_name = 'Цвет'
+        verbose_name_plural = 'Цвета'
+    name = models.CharField('Цвет', max_length=255)
+    slug = models.SlugField(help_text='Данное поле заполняется автоматически')
 
+    def __str__(self):
+        return self.name
+
+
+class Item(models.Model):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
 
-    title = models.CharField('Название инструмента', max_length=255)
+    title = models.CharField('Название товара', max_length=255)
     slug = models.SlugField('Slug', unique=True, help_text='Данное поле заполняется автоматически')
     description = models.TextField('Описание/характеристика')
-    company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, verbose_name='Компания')
+    company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, verbose_name='Компания', blank=True)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, verbose_name='Категория')
     type = models.ForeignKey(Type, on_delete=models.DO_NOTHING, verbose_name='Тип', blank=True, null=True)
-    colors = models.CharField('Цвет', choices=COLOR_CHOICES, max_length=255, blank=True, null=True)
+    colors = models.ForeignKey(Color, on_delete=models.DO_NOTHING, verbose_name='Цвет', blank=True)
     material = models.ForeignKey(Material, on_delete=models.DO_NOTHING, verbose_name='Материал', blank=True, null=True)
     size = models.FloatField("Размер", blank=True, null=True)
     price = models.FloatField('Цена')
